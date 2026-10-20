@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /design-system
+
+Sitemap: https://kharaconsulting.com/sitemap.xml

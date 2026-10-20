@@ -1,0 +1,442 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* ============================================================
+       KHARA CONSULTING — Design System
+       Identité dérivée du logo : rouge #B70606, accent or, encre #262323
+       ============================================================ */
+
+    /* --- Typographie : éditorial premium (serif + sans) --- */
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+    /* --- Rouge de marque (échelle dérivée de #B70606) --- */
+    --color-khara-red-50:  #FEF2F2;
+    --color-khara-red-100: #FDE1E1;
+    --color-khara-red-200: #FBC5C4;
+    --color-khara-red-300: #F3A3A1;
+    --color-khara-red-400: #E85D5A;
+    --color-khara-red-500: #D60605; /* reflet glossy du logo */
+    --color-khara-red-600: #B70606; /* ROUGE DE MARQUE (dominant) */
+    --color-khara-red-700: #9A0505;
+    --color-khara-red-800: #7D0606;
+    --color-khara-red-900: #5E0606;
+    --color-khara-red-950: #360303;
+
+    /* Alias historiques (back-office + vues existantes) re-skinnés */
+    --color-khara-red:        #B70606;
+    --color-khara-red-light:  #D60605;
+    --color-khara-red-dark:   #9A0505;
+    --color-khara-red-darker: #5E0606;
+
+    /* --- Or / ambre : accent unique, rare --- */
+    --color-khara-gold-light: #E6D28C;
+    --color-khara-gold:       #C9A227;
+    --color-khara-gold-dark:  #9C7C18;
+
+    /* --- Encre & surfaces sombres (anthracite chaud du mot-symbole) --- */
+    --color-khara-slate:        #262323; /* texte principal */
+    --color-khara-slate-light:  #4A4342; /* texte secondaire */
+    --color-khara-slate-dark:   #1C1212; /* sections sombres */
+    --color-khara-slate-darker: #120D0D; /* footer profond */
+    --color-khara-ink:          #1C1212;
+
+    /* --- Blancs & fonds chauds --- */
+    --color-khara-white:     #FFFFFF;
+    --color-khara-white-off: #FAF8F7; /* fond principal, chaud */
+    --color-khara-cream:     #FEF5F4; /* sections alternées (rouge quasi-blanc) */
+
+    /* --- Neutres teintés chaud --- */
+    --color-khara-gray-50:  #F7F5F4;
+    --color-khara-gray-100: #EFEBEA;
+    --color-khara-gray-200: #E2DCDB;
+    --color-khara-gray-300: #CDC5C4;
+    --color-khara-gray-400: #A49B9A;
+    --color-khara-gray-500: #7A7170;
+    --color-khara-gray-600: #5C5453;
+    --color-khara-gray-700: #443E3D;
+    --color-khara-gray-800: #2E2928;
+    --color-khara-gray-900: #1C1817;
+
+    /* --- Espacements & rayons (rythme généreux, squircle du logo) --- */
+    --spacing-section:    6rem;
+    --spacing-section-lg: 10rem;
+    --radius-bento: 2rem;
+    --radius-kc-sm: 0.75rem; /* 12px */
+    --radius-kc-md: 1.25rem; /* 20px */
+    --radius-kc-lg: 2rem;    /* 32px */
+
+    /* --- Ombres douces, rares --- */
+    --shadow-kc-sm: 0 1px 2px rgba(38,35,35,0.04), 0 2px 8px rgba(38,35,35,0.05);
+    --shadow-kc-md: 0 8px 24px -8px rgba(38,35,35,0.12);
+    --shadow-kc-lg: 0 24px 60px -20px rgba(183,6,6,0.18);
+
+    /* Admin backoffice */
+    --color-admin-bg: #f8f6f6;
+}
+
+/* Styles globaux personnalisés - Corporate Premium Moderne */
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    body {
+        @apply antialiased;
+        font-feature-settings: 'kern' 1, 'liga' 1;
+        font-family: var(--font-sans);
+        background: var(--color-khara-white-off);
+    }
+    
+    /* Typographie des titres - Playfair Display pour autorité */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        line-height: 1.08;
+        color: var(--color-khara-slate);
+        text-wrap: balance;
+    }
+    
+    h1 {
+        @apply text-5xl md:text-6xl lg:text-7xl xl:text-8xl;
+    }
+    
+    h2 {
+        @apply text-4xl md:text-5xl lg:text-6xl;
+    }
+    
+    h3 {
+        @apply text-3xl md:text-4xl;
+    }
+    
+    h4 {
+        @apply text-2xl md:text-3xl;
+    }
+    
+    /* Corps de texte - Montserrat pour clarté */
+    p, li, span, a, button {
+        font-family: var(--font-sans);
+    }
+    
+    /* Smooth scrolling amélioré */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* ============================================================
+   Composants — Système premium « retenu » (Khara Consulting)
+   ============================================================ */
+@layer components {
+    /* --- Boutons : pilule solide, lift discret, focus net --- */
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-khara-red text-white font-semibold rounded-full transition-all duration-300 hover:bg-khara-red-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khara-red/50 focus-visible:ring-offset-2;
+        font-family: var(--font-sans);
+        letter-spacing: 0.01em;
+        box-shadow: var(--shadow-kc-md);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-kc-lg); }
+
+    .btn-primary-lg {
+        @apply inline-flex items-center justify-center gap-2.5 px-9 py-4 text-base bg-khara-red text-white font-semibold rounded-full transition-all duration-300 hover:bg-khara-red-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khara-red/50 focus-visible:ring-offset-2;
+        font-family: var(--font-sans);
+        letter-spacing: 0.01em;
+        box-shadow: var(--shadow-kc-md);
+    }
+    .btn-primary-lg:hover { transform: translateY(-2px); box-shadow: var(--shadow-kc-lg); }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-transparent text-khara-slate border border-khara-gray-300 font-semibold rounded-full transition-all duration-300 hover:border-khara-red hover:text-khara-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khara-red/40 focus-visible:ring-offset-2;
+        font-family: var(--font-sans);
+        letter-spacing: 0.01em;
+    }
+
+    /* Bouton sur fond sombre */
+    .btn-outline {
+        @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-transparent text-white border border-white/40 font-semibold rounded-full transition-all duration-300 hover:bg-white hover:text-khara-slate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-khara-slate-dark;
+        font-family: var(--font-sans);
+        letter-spacing: 0.01em;
+    }
+
+    .btn-gold {
+        @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-khara-gold text-khara-slate-dark font-bold rounded-full transition-all duration-300 hover:bg-khara-gold-dark hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-khara-gold/50 focus-visible:ring-offset-2;
+        font-family: var(--font-sans);
+    }
+
+    /* --- Mise en page --- */
+    .section-container { @apply max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8; }
+    .section { @apply py-16 md:py-24 lg:py-32; }
+    .section-sm { @apply py-12 md:py-16; }
+
+    /* --- Eyebrow (étiquette de section) --- */
+    .eyebrow {
+        @apply inline-flex items-center gap-2 text-xs font-bold uppercase text-khara-red;
+        font-family: var(--font-sans);
+        letter-spacing: 0.18em;
+    }
+    .eyebrow-gold { @apply text-khara-gold; }
+    .eyebrow::before {
+        content: '';
+        width: 1.75rem; height: 2px;
+        background: currentColor;
+        display: inline-block;
+    }
+
+    /* --- Cartes : surfaces nettes, bord fin, lift doux --- */
+    .card {
+        @apply bg-white rounded-[var(--radius-kc-lg)] p-8 border border-khara-gray-200 transition-all duration-300;
+        box-shadow: var(--shadow-kc-sm);
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-kc-md); border-color: var(--color-khara-gray-300); }
+
+    .card-feature {
+        @apply relative bg-white rounded-[var(--radius-kc-lg)] p-8 border border-khara-gray-200 overflow-hidden transition-all duration-300;
+        box-shadow: var(--shadow-kc-sm);
+    }
+    .card-feature:hover { transform: translateY(-4px); box-shadow: var(--shadow-kc-lg); }
+
+    /* --- Badges --- */
+    .badge {
+        @apply inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold;
+        font-family: var(--font-sans);
+    }
+    .badge-red { @apply bg-khara-red-50 text-khara-red-700 border border-khara-red-100; }
+    .badge-gold { @apply bg-khara-gold/10 text-khara-gold-dark border border-khara-gold/25; }
+    .badge-ink { @apply bg-white/10 text-white border border-white/20; }
+
+    /* --- Champs de formulaire --- */
+    .input {
+        @apply w-full px-5 py-3.5 border border-khara-gray-300 rounded-[var(--radius-kc-md)] bg-white text-khara-slate placeholder:text-khara-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-khara-red/30 focus:border-khara-red;
+        font-family: var(--font-sans);
+    }
+    .input-label { @apply block text-sm font-bold text-khara-slate mb-2; font-family: var(--font-sans); }
+
+    /* --- Titre à accent --- */
+    .text-accent { @apply text-khara-red; }
+    .text-gradient {
+        background: linear-gradient(100deg, var(--color-khara-red-600), var(--color-khara-red-500));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+
+    /* --- Statistique (chiffre clé) --- */
+    .kc-stat-value {
+        @apply block text-5xl md:text-6xl leading-none text-khara-red;
+        font-family: var(--font-display); font-weight: 800;
+    }
+    .kc-stat-label {
+        @apply block mt-2 text-sm font-semibold text-khara-gray-600 uppercase;
+        font-family: var(--font-sans); letter-spacing: 0.08em;
+    }
+
+    /* Admin Panel - Design aligné sur l'identité Khara (neutres chauds) */
+    .admin-card {
+        @apply bg-white p-6 rounded-[var(--radius-kc-md)] border border-khara-gray-200;
+        box-shadow: var(--shadow-kc-sm);
+    }
+    .admin-stat-card {
+        @apply bg-white p-6 rounded-[var(--radius-kc-md)] border border-khara-gray-200;
+        box-shadow: var(--shadow-kc-sm);
+    }
+    .admin-table thead {
+        @apply bg-khara-gray-50 text-khara-gray-500 text-xs uppercase tracking-wider;
+    }
+    .admin-table th {
+        @apply px-6 py-4 font-semibold text-left;
+    }
+    .admin-table td {
+        @apply px-6 py-4;
+    }
+    .admin-table tbody tr {
+        @apply border-b border-khara-gray-100 hover:bg-khara-gray-50 transition-colors;
+    }
+    .admin-input {
+        @apply w-full px-4 py-3 rounded-[var(--radius-kc-sm)] border border-khara-gray-300 bg-white text-khara-slate focus:ring-2 focus:ring-khara-red/25 focus:border-khara-red transition-all outline-none;
+    }
+    select.admin-input {
+        @apply appearance-none pr-10;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 1.25rem;
+    }
+    input[type="date"].admin-input {
+        @apply cursor-pointer;
+    }
+    .admin-btn,
+    .admin-btn-primary,
+    .admin-btn-secondary,
+    .admin-btn-danger {
+        @apply inline-flex items-center justify-center px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors;
+    }
+    .admin-btn-primary {
+        @apply bg-khara-red text-white hover:bg-khara-red-dark;
+    }
+    .admin-btn-secondary {
+        @apply bg-khara-gray-100 text-khara-gray-700 hover:bg-khara-gray-200;
+    }
+    .admin-btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-700;
+    }
+    /* Pagination admin - override Tailwind default */
+    .admin-card nav[role="navigation"] .inline-flex {
+        @apply border-khara-gray-200;
+    }
+    .admin-card nav[role="navigation"] a.inline-flex {
+        @apply text-khara-gray-700 hover:bg-khara-gray-50 hover:text-khara-slate border-khara-gray-200;
+    }
+    .admin-card nav[role="navigation"] span[aria-current="page"] span,
+    .admin-card nav[role="navigation"] [aria-current="page"] span {
+        @apply !bg-khara-red !text-white !border-khara-red;
+    }
+    .admin-card nav[role="navigation"] [aria-disabled="true"] span {
+        @apply bg-khara-gray-100 text-khara-gray-400 border-khara-gray-200 cursor-not-allowed;
+    }
+    .admin-card nav[role="navigation"] p.text-sm {
+        @apply text-khara-gray-600;
+    }
+}
+
+/* Material Symbols Icons */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.material-symbols-outlined.active-fill {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Désactiver l'animation si l'utilisateur préfère moins de mouvement */
+@media (prefers-reduced-motion: reduce) {
+    .animate-bounce-slow {
+        animation: none;
+    }
+    
+    .hero-slide.active {
+        animation: none;
+    }
+    
+    .hero-slide {
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .hero-slide.active .hero-text-line-1,
+    .hero-slide.active .hero-text-line-2,
+    .hero-slide.active .hero-text-line-3,
+    .hero-slide.active .hero-text-line-4,
+    .hero-slide.active .hero-text-line-5 {
+        transition: opacity 0.3s ease, transform 0.3s ease !important;
+    }
+    
+    .faq-answer {
+        transition: none;
+    }
+
+    .kc-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* ============================================================
+   Motif signature (chevron / pétale) & révélation au scroll
+   ============================================================ */
+
+/* Révélation sobre au scroll : fondu + léger déplacement, une fois */
+.kc-reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+.kc-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+.kc-reveal-2 { transition-delay: 0.08s; }
+.kc-reveal-3 { transition-delay: 0.16s; }
+.kc-reveal-4 { transition-delay: 0.24s; }
+.kc-reveal-5 { transition-delay: 0.32s; }
+.kc-reveal-6 { transition-delay: 0.40s; }
+
+/* Filet séparateur en chevron (rappel du monogramme KC) */
+.chevron-rule {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-khara-red-600);
+}
+.chevron-rule::before,
+.chevron-rule::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, transparent, var(--color-khara-gray-300));
+}
+.chevron-rule::after { transform: scaleX(-1); }
+
+/* Pétale en filigrane (forme du logo), décoratif, très discret */
+.petal-watermark {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.04;
+    color: var(--color-khara-red-600);
+    z-index: 0;
+}
+
+/* Carte avec pétale d'arrière-plan */
+.has-petal { position: relative; overflow: hidden; }
+.has-petal > * { position: relative; z-index: 1; }
+
+/* Puce chevron pour listes */
+.kc-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    background: var(--color-khara-red-50);
+    color: var(--color-khara-red-600);
+}
+
+/* Ondes KC : arcs concentriques animés (signature du hero) */
+.kc-arcs { display: block; }
+.kc-arc { transform-box: fill-box; transform-origin: left center; }
+@keyframes kc-wave {
+    0%   { opacity: 0;   transform: translateX(-6px) scaleX(0.96); }
+    30%  { opacity: 1; }
+    100% { opacity: 0;   transform: translateX(10px) scaleX(1.06); }
+}
+.kc-arc-1 { animation: kc-wave 3.2s ease-out infinite; animation-delay: 0s; }
+.kc-arc-2 { animation: kc-wave 3.2s ease-out infinite; animation-delay: 0.4s; }
+.kc-arc-3 { animation: kc-wave 3.2s ease-out infinite; animation-delay: 0.8s; }
+.kc-arc-4 { animation: kc-wave 3.2s ease-out infinite; animation-delay: 1.2s; }
+@media (prefers-reduced-motion: reduce) {
+    .kc-arc { animation: none !important; }
+}
+
+/* Lien souligné animé (navigation, liens de corps) */
+.link-underline {
+    position: relative;
+}
+.link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after { width: 100%; }
