@@ -12,9 +12,10 @@ cd "$APP"
 echo "==> 1/5 Dépendances PHP (composer, sans dev)"
 composer install --no-dev --optimize-autoloader
 
-echo "==> 2/5 Copie des assets compilés vers public_html"
-rm -rf "$WEB/build" && cp -R "$APP/public/build" "$WEB/build"
-rm -rf "$WEB/brand" && cp -R "$APP/public/brand" "$WEB/brand"
+echo "==> 2/5 Copie des assets (build, brand, images) vers public_html"
+rm -rf "$WEB/build"  && cp -R "$APP/public/build"  "$WEB/build"
+rm -rf "$WEB/brand"  && cp -R "$APP/public/brand"  "$WEB/brand"
+rm -rf "$WEB/images" && cp -R "$APP/public/images" "$WEB/images"
 [ -f "$APP/public/robots.txt" ] && cp -f "$APP/public/robots.txt" "$WEB/robots.txt" || true
 
 echo "==> 3/5 Lien de stockage (images uploadées) + permissions de traversée"
