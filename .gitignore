@@ -13,7 +13,7 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
+# /public/build  -> VERSIONNÉ : le serveur mutualisé n'a pas npm pour construire les assets
 /public/hot
 /public/storage
 /storage/*.key
