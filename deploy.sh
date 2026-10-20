@@ -17,8 +17,10 @@ rm -rf "$WEB/build" && cp -R "$APP/public/build" "$WEB/build"
 rm -rf "$WEB/brand" && cp -R "$APP/public/brand" "$WEB/brand"
 [ -f "$APP/public/robots.txt" ] && cp -f "$APP/public/robots.txt" "$WEB/robots.txt" || true
 
-echo "==> 3/5 Lien de stockage (si absent)"
+echo "==> 3/5 Lien de stockage (images uploadées) — toujours vers l'app actuelle"
 php artisan storage:link 2>/dev/null || true
+rm -f "$WEB/storage"
+ln -s "$APP/storage/app/public" "$WEB/storage"
 
 echo "==> 4/5 Base de données (migrations ADDITIVES + réglages manquants)"
 php artisan migrate --force
